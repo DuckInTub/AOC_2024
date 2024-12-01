@@ -1,0 +1,32 @@
+from itertools import *
+from collections import *
+from heapq import *
+
+with open(0) as file:
+    data = file.read().rstrip().splitlines()
+
+colL = []
+colR = []
+for row in data:
+    row = row.split(" ")
+    colL.append(int(row[0]))
+    colR.append(int(row[-1]))
+
+colL
+colR
+assert len(colL) == len(colR)
+
+p1 = 0
+for L, R in zip(sorted(colL), sorted(colR)):
+    p1 += abs(L - R)
+
+C = Counter(colR)
+p2 = 0
+for num in colL:
+    p2 += num * C[num]
+
+# Part 1
+print(f"Part 1: {p1}")
+# Part 2
+print(f"Part 2: {p2}")
+
