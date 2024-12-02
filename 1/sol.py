@@ -12,8 +12,6 @@ for row in data:
     colL.append(int(row[0]))
     colR.append(int(row[-1]))
 
-colL
-colR
 assert len(colL) == len(colR)
 
 p1 = 0
