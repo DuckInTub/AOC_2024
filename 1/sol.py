@@ -14,14 +14,10 @@ for row in data:
 
 assert len(colL) == len(colR)
 
-p1 = 0
-for L, R in zip(sorted(colL), sorted(colR)):
-    p1 += abs(L - R)
+p1 = sum(abs(L - R) for L, R in zip(sorted(colL), sorted(colR)))
 
 C = Counter(colR)
-p2 = 0
-for num in colL:
-    p2 += num * C[num]
+p2 = sum(num * C[num] for num in colL)
 
 # Part 1
 print(f"Part 1: {p1}")
