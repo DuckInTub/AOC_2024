@@ -46,6 +46,8 @@ for pos in been:
     assert len(new_obstacles) > len(obstacles)
     if not simulate(start, new_obstacles):
         p2 += 1
+        x, y = pos
+        # print(y+1, x+1)
 
 # Part 2
 print(f"Part 2: {p2}")
