@@ -35,6 +35,26 @@ def stateify(bots):
         state += [r, c]
     return ",".join(str(e) for e in state)
 
+def score(bots):
+    # quadrants:
+    # 0 1
+    # 2 3
+    quadrants = [0, 0, 0, 0]
+    MH = HEIGHT // 2
+    MW = WIDTH // 2
+    for bot in bots:
+        r, c, dr, dc = bot
+        if r<MH and c<MW:
+            quadrants[0] += 1
+        if r<MH and c>MW:
+            quadrants[1] += 1
+        if r>MH and c<MW:
+            quadrants[2] += 1
+        if r>MH and c>MW:
+            quadrants[3] += 1
+
+    return prod(quadrants)
+
 newbots = []
 for i, bot in enumerate(bots):
     r, c, dr, dc = bot
@@ -42,28 +62,11 @@ for i, bot in enumerate(bots):
     nr, nc = border(nr, nc)
     newbots.append([nr, nc, dr, dc])
 
-# quadrants:
-# 0 1
-# 2 3
-quadrants = [0, 0, 0, 0]
-MH = HEIGHT // 2
-MW = WIDTH // 2
-for bot in newbots:
-    r, c, dr, dc = bot
-    if r<MH and c<MW:
-        quadrants[0] += 1
-    if r<MH and c>MW:
-        quadrants[1] += 1
-    if r>MH and c<MW:
-        quadrants[2] += 1
-    if r>MH and c>MW:
-        quadrants[3] += 1
-
-p1 = prod(quadrants)
+p1 = score(bots)
 # Part 1
 print(f"Part 1: {p1}")
 
-avg_dists = []
+scores = []
 looped = False
 seen = set()
 steps = 1
@@ -79,11 +82,11 @@ while not looped:
         looped = True
         break
     seen.add(state)
-    dist = avg_dist(bots)
-    avg_dists.append((steps, dist))
+    S = score(bots)
+    scores.append((steps, S))
     steps += 1
 
-T = min(avg_dists, key=lambda x : x[1])[0]
+T = min(scores, key=lambda x : x[1])[0]
 for i, bot in enumerate(old_bots):
     r, c, dr, dc = bot
     nr, nc = r+dr*T, c+dc*T
